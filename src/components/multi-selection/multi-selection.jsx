@@ -15,7 +15,7 @@ const MultiSelection = ({ title, options, onOptionClick, currentOption = '' }) =
       onOptionClick('');
     } else {
       setSelectedOption(id);
-      onOptionClick(id);
+      onOptionClick(option);
     }
   };
 
@@ -25,7 +25,7 @@ const MultiSelection = ({ title, options, onOptionClick, currentOption = '' }) =
       <div className="text-center">
         <Row gutter={[16, 16]} justify="center">
           {options.map(option => {
-            const { label, id } = option;
+            const { id, label } = option;
             const isSelected = id === selectedOption;
             const buttonStyle = isSelected
               ? { background: '#1890ff', color: 'white' }

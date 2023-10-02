@@ -6,20 +6,7 @@ function App() {
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
-  const [isUserProfileModalVisible, setIsUserProfileModalVisible] = useState(false); // New state variable
-
-  const [quizQuestion, setQuizQuestion] = useState({
-    question: 'What is the capital of France?',
-    options: [
-      { id: 'paris', label: 'Paris' },
-      { id: 'berlin', label: 'Berlin' },
-      { id: 'london', label: 'London' },
-      { id: 'madrid', label: 'Madrid' },
-    ],
-    correctAnswer: 'paris',
-  });
-  const [selectedAnswer, setSelectedAnswer] = useState('');
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+  const [isUserProfileModalVisible, setIsUserProfileModalVisible] = useState(false);
 
   const toggleModal1 = () => {
     setIsModalVisible1(!isModalVisible1);
@@ -33,7 +20,7 @@ function App() {
     setIsFeedbackModalVisible(!isFeedbackModalVisible);
   };
 
-  const toggleUserProfileModal = () => { // New function to toggle user profile modal visibility
+  const toggleUserProfileModal = () => {
     setIsUserProfileModalVisible(!isUserProfileModalVisible);
   };
 
@@ -41,23 +28,19 @@ function App() {
     console.log('Primary button clicked in the first modal');
   };
 
-  const handleSecondaryButtonClick = () => {
-    console.log('Secondary button clicked in the first modal');
+  const handleSecondaryButtonClick1 = () => {
+    setIsModalVisible1(false); 
   };
 
-  const handleOptionClick = (optionId) => {
-    setSelectedAnswer(optionId);
-
-    if (optionId === quizQuestion.correctAnswer) {
-      setIsAnswerCorrect(true);
-    } else {
-      setIsAnswerCorrect(false);
-    }
+  const handleSecondaryButtonClick2 = () => {
+    setIsModalVisible2(false); 
   };
 
   const handleFeedbackSubmit = (ratings, comment) => {
     setIsFeedbackModalVisible(false);
   };
+
+  const [selectedCapital, setSelectedCapital] = useState('');
 
   return (
     <div className="App">
@@ -71,8 +54,8 @@ function App() {
       <button onClick={toggleFeedbackModal}>Open Feedback Form</button>
       <br />
       <br />
-      <button onClick={toggleUserProfileModal}>Open User Profile</button> {/* Button to open User Profile */}
-      
+      <button onClick={toggleUserProfileModal}>Open User Profile</button>
+
       <Modal
         title="Sample Modal 1"
         isVisible={isModalVisible1}
@@ -83,8 +66,8 @@ function App() {
             onClick: handlePrimaryButtonClick,
           },
           secondary: {
-            text: 'Secondary',
-            onClick: handleSecondaryButtonClick,
+            text: 'Cancel',
+            onClick: handleSecondaryButtonClick1, 
           },
         }}
       >
@@ -103,19 +86,24 @@ function App() {
             },
           },
           secondary: {
-            text: 'Secondary',
-            onClick: () => {
-              console.log('Secondary button clicked in the second modal');
-            },
+            text: 'Cancel',
+            onClick: handleSecondaryButtonClick2,
           },
         }}
       >
         <MultiSelection
-          title={quizQuestion.question}
-          options={quizQuestion.options}
-          onOptionClick={handleOptionClick}
-          currentOption={selectedAnswer}
-        />
+        title="What is the capital of France?"
+        options={[
+          { id: 'paris', label: 'Paris' },
+          { id: 'berlin', label: 'Berlin' },
+          { id: 'london', label: 'London' },
+          { id: 'madrid', label: 'Madrid' },
+        ]}
+        onOptionClick={(option) => {
+          console.log(`Opção ${option.label} foi selecionada.`);
+        }}
+        currentOption={selectedCapital}
+      />
       </Modal>
 
       <UserFeedback
